@@ -20,11 +20,12 @@
 ├── src/
 │   ├── app/                # 页面路由与布局
 │   │   ├── api/
-│   │   │   ├── chat/route.ts   # 对话生成 API (LLM)
-│   │   │   └── tts/route.ts    # 语音合成 API (TTS)
-│   │   ├── blog/               # 博客页面
-│   │   │   ├── page.tsx        # 博客列表页 (恋爱攻略)
-│   │   │   └── [slug]/page.tsx # 博客详情页
+│   │   │   ├── chat/route.ts            # 对话生成 API (LLM)
+│   │   │   ├── tts/route.ts             # 语音合成 API (TTS)
+│   │   │   └── generate-article/route.ts # LLM 生成博客文章 API
+│   │   ├── blog/                        # 博客页面
+│   │   │   ├── page.tsx                 # 博客列表页 (恋爱攻略，从数据库读取)
+│   │   │   └── [slug]/page.tsx          # 博客详情页 (按 ID 查询)
 │   │   ├── layout.tsx          # 全局布局
 │   │   └── page.tsx            # 主页面 (游戏路由)
 │   ├── components/
@@ -37,7 +38,11 @@
 │   ├── context/
 │   │   └── GameContext.tsx     # 游戏状态管理 (React Context)
 │   ├── data/
-│   │   └── blog.ts            # 博客文章数据
+│   │   └── blog.ts            # 博客数据层（Supabase CRUD）
+│   ├── storage/
+│   │   └── database/
+│   │       ├── supabase-client.ts     # Supabase 客户端
+│   │       └── shared/schema.ts       # Drizzle schema（blog_posts 表）
 │   ├── types/
 │   │   └── game.ts            # 类型定义与常量
 │   ├── tests/                 # 单元测试 (vitest)

@@ -1,52 +1,65 @@
 import Link from 'next/link';
-import { blogArticles } from '@/data/blog';
+import { getAllPosts } from '@/data/blog';
 import { ArrowLeft, BookOpen } from 'lucide-react';
 
-export default function BlogListPage() {
+export const dynamic = 'force-dynamic';
+
+export default async function BlogListPage() {
+  const posts = await getAllPosts();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100">
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-pink-500 transition-colors mb-6"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          返回首页
-        </Link>
+      <div className="mx-auto max-w-3xl px-4 py-8">
+        <div className="mb-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-pink-500 transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            返回首页
+          </Link>
+        </div>
 
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 mb-4">
-            <BookOpen className="w-7 h-7 text-white" />
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 mb-3">
+            <BookOpen className="h-8 w-8 text-pink-500" />
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+              恋爱攻略
+            </h1>
           </div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
-            恋爱攻略
-          </h1>
-          <p className="text-gray-500 mt-2 text-sm">
-            哄人之前先充充电，这些技巧帮你事半功倍
-          </p>
+          <p className="text-gray-500">学会这些技巧，哄 TA 更轻松</p>
         </div>
 
         <div className="space-y-4">
-          {blogArticles.map((article) => (
+          {posts.map((post) => (
             <Link
-              key={article.slug}
-              href={`/blog/${article.slug}`}
-              className="block group"
+              key={post.id}
+              href={`/blog/${post.id}`}
+              className="block bg-white/80 backdrop-blur-sm rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 border border-white/50"
             >
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-white/40 hover:shadow-md hover:border-pink-200 transition-all group-hover:scale-[1.01]">
-                <h2 className="text-lg font-bold text-gray-800 group-hover:text-pink-600 transition-colors mb-2">
-                  {article.title}
-                </h2>
-                <p className="text-sm text-gray-500 leading-relaxed">
-                  {article.summary}
-                </p>
-                <div className="mt-3 text-xs text-pink-400 font-medium">
-                  阅读全文 →
-                </div>
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                {post.title}
+              </h2>
+              <p className="text-sm text-gray-500 leading-relaxed">
+                {post.summary}
+              </p>
+              <div className="mt-3 text-xs text-gray-400">
+                {new Date(post.created_at).toLocaleDateString('zh-CN', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
               </div>
             </Link>
           ))}
         </div>
+
+        {posts.length === 0 && (
+          <div className="text-center py-12 text-gray-400">
+            <BookOpen className="h-12 w-12 mx-auto mb-3 opacity-50" />
+            <p>暂无文章</p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,10 +1,9 @@
 import Link from 'next/link';
-import { blogArticles, getArticleBySlug } from '@/data/blog';
+import { getPostById } from '@/data/blog';
 import { ArrowLeft } from 'lucide-react';
+import { notFound } from 'next/navigation';
 
-export function generateStaticParams() {
-  return blogArticles.map((article) => ({ slug: article.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export default async function BlogDetailPage({
   params,
@@ -12,55 +11,47 @@ export default async function BlogDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const id = Number(slug);
+  if (Number.isNaN(id)) notFound();
 
-  if (!article) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100">
-        <div className="text-center">
-          <p className="text-4xl mb-4">😢</p>
-          <p className="text-gray-600 mb-4">文章不存在</p>
-          <Link href="/blog" className="text-pink-500 hover:underline text-sm">
-            返回文章列表
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  const post = await getPostById(id);
+  if (!post) notFound();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100">
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-pink-500 transition-colors mb-6"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          返回攻略列表
-        </Link>
+      <div className="mx-auto max-w-3xl px-4 py-8">
+        <div className="mb-6">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-pink-500 transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            返回列表
+          </Link>
+        </div>
 
-        <article className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-sm border border-white/40 p-8">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">
-            {article.title}
+        <article className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-sm border border-white/50">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
+            {post.title}
           </h1>
-          <div className="max-w-none">
-            {article.content.split('\n\n').map((paragraph, i) => (
-              <p
-                key={i}
-                className="text-gray-700 leading-relaxed mb-4 text-[15px]"
-              >
-                {paragraph}
-              </p>
-            ))}
+          <div className="text-sm text-gray-400 mb-6">
+            {new Date(post.created_at).toLocaleDateString('zh-CN', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </div>
+          <div className="prose prose-sm max-w-none text-gray-700 leading-relaxed whitespace-pre-line">
+            {post.content}
           </div>
         </article>
 
         <div className="mt-8 text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-pink-400 to-purple-400 text-white font-medium shadow-md hover:shadow-lg transition-all hover:scale-[1.02]"
+            className="inline-block bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition-all duration-200"
           >
-            去哄哄 TA 💕
+            去哄哄 TA
           </Link>
         </div>
       </div>
