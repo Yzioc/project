@@ -19,14 +19,31 @@
 │   └── start.sh            # 生产环境启动脚本
 ├── src/
 │   ├── app/                # 页面路由与布局
-│   ├── components/ui/      # Shadcn UI 组件库
-│   ├── hooks/              # 自定义 Hooks
-│   ├── lib/                # 工具库
-│   │   └── utils.ts        # 通用工具函数 (cn)
-│   └── server.ts           # 自定义服务端入口
-├── next.config.ts          # Next.js 配置
-├── package.json            # 项目依赖管理
-└── tsconfig.json           # TypeScript 配置
+│   │   ├── api/
+│   │   │   ├── chat/route.ts   # 对话生成 API (LLM)
+│   │   │   └── tts/route.ts    # 语音合成 API (TTS)
+│   │   ├── layout.tsx          # 全局布局
+│   │   └── page.tsx            # 主页面 (游戏路由)
+│   ├── components/
+│   │   ├── ui/                 # Shadcn UI 组件库
+│   │   ├── StartScreen.tsx     # 开始界面
+│   │   ├── GameScreen.tsx      # 游戏主界面
+│   │   ├── GameOverScreen.tsx  # 结束界面
+│   │   ├── AffectionBar.tsx    # 好感度进度条
+│   │   └── LoadingAnimation.tsx # 加载动画
+│   ├── context/
+│   │   └── GameContext.tsx     # 游戏状态管理 (React Context)
+│   ├── types/
+│   │   └── game.ts            # 类型定义与常量
+│   ├── tests/                 # 单元测试 (vitest)
+│   ├── hooks/                 # 自定义 Hooks
+│   ├── lib/                   # 工具库
+│   │   └── utils.ts           # 通用工具函数 (cn)
+│   └── server.ts              # 自定义服务端入口
+├── next.config.ts             # Next.js 配置
+├── vitest.config.ts           # Vitest 测试配置
+├── package.json               # 项目依赖管理
+└── tsconfig.json              # TypeScript 配置
 ```
 
 - 项目文件（如 app 目录、pages 目录、components 等）默认初始化到 `src/` 目录下。

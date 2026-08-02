@@ -1,9 +1,14 @@
 [project]
+sub_id = "3e8dc078"
+name = "coaxing-simulator"
 requires = [ "nodejs-24" ]
 project_type = "web"
 template = "nextjs"
 version = "0.0.32"
 appliedPatches = [ ]
+
+[preview]
+preview_enable = "enabled"
 
 [dev]
 build = [ "bash", "./scripts/prepare.sh" ]
