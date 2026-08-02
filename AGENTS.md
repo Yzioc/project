@@ -45,7 +45,8 @@
 │   │   ├── AuthContext.tsx     # 认证状态管理 (登录/注册/登出)
 │   │   └── GameContext.tsx     # 游戏状态管理 (React Context)
 │   ├── data/
-│   │   └── blog.ts            # 博客数据层（Supabase CRUD）
+│   │   ├── blog.ts            # 博客数据层（Supabase CRUD）
+│   │   └── game-records.ts    # 游戏记录数据层（Supabase CRUD）
 │   ├── storage/
 │   │   └── database/
 │   │       ├── supabase-client.ts     # Supabase 客户端

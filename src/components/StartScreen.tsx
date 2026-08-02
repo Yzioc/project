@@ -6,7 +6,7 @@ import { useGame } from '@/context/GameContext';
 import { useAuth } from '@/context/AuthContext';
 import { SCENARIOS, VOICE_CONFIG } from '@/types/game';
 import type { Gender, VoiceType, Scenario } from '@/types/game';
-import { Heart, BookOpen, LogOut } from 'lucide-react';
+import { Heart, BookOpen, LogOut, User } from 'lucide-react';
 
 export function StartScreen() {
   const { setGender, setScenario, setVoiceType, startGame, gameState } = useGame();
@@ -38,9 +38,13 @@ export function StartScreen() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 p-4">
       <div className="w-full max-w-md bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8">
         <div className="flex justify-between items-center mb-6">
-          <div className="text-sm text-gray-600">
-            欢迎，<span className="font-medium text-purple-600">{user?.username}</span>
-          </div>
+          <Link
+            href="/profile"
+            className="text-sm text-gray-600 hover:text-purple-600 flex items-center gap-1 transition-colors"
+          >
+            <User className="w-4 h-4" />
+            <span className="font-medium text-purple-600">{user?.username}</span>
+          </Link>
           <button
             onClick={logout}
             className="text-sm text-gray-500 hover:text-red-500 flex items-center gap-1 transition-colors"

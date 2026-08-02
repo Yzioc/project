@@ -2,13 +2,17 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useGame } from '@/context/GameContext';
+import { useAuth } from '@/context/AuthContext';
 import { VOICE_CONFIG } from '@/types/game';
 import { Heart, HeartCrack, RotateCcw } from 'lucide-react';
 
 export function GameOverScreen() {
   const { gameState, resetGame } = useGame();
-  const { won, messages, voiceType } = gameState;
+  const { user } = useAuth();
+  const { won, messages, voiceType, scenario } = gameState;
   const [audioUri, setAudioUri] = useState<string | undefined>();
+  const [toast, setToast] = useState<string | null>(null);
+  const [saved, setSaved] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const lastPartnerMessage = [...messages].reverse().find((m) => m.role === 'partner');
@@ -38,6 +42,40 @@ export function GameOverScreen() {
     generateAudio();
   }, [lastPartnerMessage?.content, voiceType]);
 
+  useEffect(() => {
+    if (saved || !scenario) return;
+    setSaved(true);
+
+    if (user) {
+      fetch('/api/game-record', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          scenario: scenario.title,
+          finalScore: gameState.affection,
+          result: won ? 'win' : 'lose',
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setToast('您的游戏记录已经保存');
+          }
+        })
+        .catch((err) => console.error('Failed to save game record:', err));
+    } else {
+      setToast('登录后可保存你的游戏记录');
+    }
+  }, [user, scenario, won, gameState.affection, saved]);
+
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => setToast(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
+
   const handlePlayAudio = () => {
     if (!audioUri) return;
     if (audioRef.current) {
@@ -55,7 +93,13 @@ export function GameOverScreen() {
   }, [audioUri]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 p-4 relative">
+      {toast && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-gray-800 text-white rounded-full shadow-lg text-sm animate-fade-in">
+          {toast}
+        </div>
+      )}
+
       <div className="w-full max-w-md bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 text-center">
         {won ? (
           <>
