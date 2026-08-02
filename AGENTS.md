@@ -22,6 +22,9 @@
 │   │   ├── api/
 │   │   │   ├── chat/route.ts   # 对话生成 API (LLM)
 │   │   │   └── tts/route.ts    # 语音合成 API (TTS)
+│   │   ├── blog/               # 博客页面
+│   │   │   ├── page.tsx        # 博客列表页 (恋爱攻略)
+│   │   │   └── [slug]/page.tsx # 博客详情页
 │   │   ├── layout.tsx          # 全局布局
 │   │   └── page.tsx            # 主页面 (游戏路由)
 │   ├── components/
@@ -33,6 +36,8 @@
 │   │   └── LoadingAnimation.tsx # 加载动画
 │   ├── context/
 │   │   └── GameContext.tsx     # 游戏状态管理 (React Context)
+│   ├── data/
+│   │   └── blog.ts            # 博客文章数据
 │   ├── types/
 │   │   └── game.ts            # 类型定义与常量
 │   ├── tests/                 # 单元测试 (vitest)

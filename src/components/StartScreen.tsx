@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useGame } from '@/context/GameContext';
 import { SCENARIOS, VOICE_CONFIG } from '@/types/game';
 import type { Gender, VoiceType, Scenario } from '@/types/game';
-import { Heart } from 'lucide-react';
+import { Heart, BookOpen } from 'lucide-react';
 
 export function StartScreen() {
   const { setGender, setScenario, setVoiceType, startGame, gameState } = useGame();
@@ -115,6 +116,14 @@ export function StartScreen() {
           >
             开始哄人 💕
           </button>
+
+          <Link
+            href="/blog"
+            className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white/60 border border-pink-200 text-pink-600 font-medium text-sm hover:bg-white hover:shadow-md transition-all"
+          >
+            <BookOpen className="w-4 h-4" />
+            恋爱攻略
+          </Link>
         </div>
       </div>
     </div>
