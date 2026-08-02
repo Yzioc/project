@@ -20,22 +20,29 @@
 ├── src/
 │   ├── app/                # 页面路由与布局
 │   │   ├── api/
+│   │   │   ├── auth/                    # 认证 API
+│   │   │   │   ├── login/route.ts       # 登录 API
+│   │   │   │   └── register/route.ts    # 注册 API
 │   │   │   ├── chat/route.ts            # 对话生成 API (LLM)
 │   │   │   ├── tts/route.ts             # 语音合成 API (TTS)
 │   │   │   └── generate-article/route.ts # LLM 生成博客文章 API
 │   │   ├── blog/                        # 博客页面
 │   │   │   ├── page.tsx                 # 博客列表页 (恋爱攻略，从数据库读取)
 │   │   │   └── [slug]/page.tsx          # 博客详情页 (按 ID 查询)
+│   │   ├── login/page.tsx               # 登录页
+│   │   ├── register/page.tsx            # 注册页
 │   │   ├── layout.tsx          # 全局布局
-│   │   └── page.tsx            # 主页面 (游戏路由)
+│   │   └── page.tsx            # 主页面 (游戏路由，需登录)
 │   ├── components/
 │   │   ├── ui/                 # Shadcn UI 组件库
+│   │   ├── AuthProviderWrapper.tsx # 认证 Provider 包装器
 │   │   ├── StartScreen.tsx     # 开始界面
 │   │   ├── GameScreen.tsx      # 游戏主界面
 │   │   ├── GameOverScreen.tsx  # 结束界面
 │   │   ├── AffectionBar.tsx    # 好感度进度条
 │   │   └── LoadingAnimation.tsx # 加载动画
 │   ├── context/
+│   │   ├── AuthContext.tsx     # 认证状态管理 (登录/注册/登出)
 │   │   └── GameContext.tsx     # 游戏状态管理 (React Context)
 │   ├── data/
 │   │   └── blog.ts            # 博客数据层（Supabase CRUD）
