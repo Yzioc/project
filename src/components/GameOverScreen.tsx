@@ -83,7 +83,15 @@ export function GameOverScreen() {
     }
     const audio = new Audio(audioUri);
     audioRef.current = audio;
-    audio.play();
+    // play() 返回 Promise，若在 resolve 前调用 pause()（如"再听一次"重复点击）
+    // 会以 AbortError reject，这里捕获以避免未处理 Promise 报错。
+    const playPromise = audio.play();
+    if (playPromise) {
+      playPromise.catch((err: unknown) => {
+        if (err instanceof DOMException && err.name === 'AbortError') return;
+        console.error('Audio play error:', err);
+      });
+    }
   };
 
   useEffect(() => {
