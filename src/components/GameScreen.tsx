@@ -68,15 +68,7 @@ export function GameScreen() {
     const audio = new Audio(audioUri);
     audioRef.current = audio;
     audio.onended = () => setIsPlaying(false);
-    // play() 返回 Promise，若在 resolve 前调用 pause()（如切换选项/再次点击）
-    // 会以 AbortError reject，这里捕获以避免未处理 Promise 报错。
-    const playPromise = audio.play();
-    if (playPromise) {
-      playPromise.catch((err: unknown) => {
-        if (err instanceof DOMException && err.name === 'AbortError') return;
-        console.error('Audio play error:', err);
-      });
-    }
+    audio.play();
     setIsPlaying(true);
   };
 
