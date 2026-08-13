@@ -58,7 +58,7 @@ export function StartScreen() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 mb-4">
             <Heart className="w-8 h-8 text-white fill-white" />
           </div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold text-black">
             哄哄模拟器
           </h1>
           <p className="text-gray-500 mt-2 text-sm">TA 生气了，你能在 10 轮内哄好吗？</p>
